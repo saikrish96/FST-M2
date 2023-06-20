@@ -1,0 +1,174 @@
+root@4b2b82f115f9:/# vi episodeIVdialouges.txt
+root@4b2b82f115f9:/# vi episodeVdialouges.txt
+root@4b2b82f115f9:/# vi episodeVIdialouges.txt
+root@4b2b82f115f9:/# clear
+root@4b2b82f115f9:/# ls
+EmpData.csv  derby.log               episodeVIdialouges.txt  export      lib    metastore_db  output.csv  run   sys  var
+bin          dev                     episodeVdialouges.txt   file01.txt  lib64  mnt           proc        sbin  tmp
+boot         episodeIVdialouges.txt  etc                     home        media  opt           root        srv   usr
+root@4b2b82f115f9:/# hive
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-3.1.2-bin/lib/log4j-slf4j-impl-2.10.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-3.3.1/share/hadoop/common/lib/slf4j-log4j12-1.7.30.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Hive Session ID = 2e537d41-9b30-468a-bf7c-35950a554b5b
+
+Logging initialized using configuration in jar:file:/usr/local/apache-hive-3.1.2-bin/lib/hive-common-3.1.2.jar!/hive-log4j2.properties Async: true
+Hive Session ID = 34a8031b-8171-4970-abea-5ad621e057f9
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> show databases;
+OK
+default
+office
+project
+Time taken: 1.019 seconds, Fetched: 3 row(s)
+hive> use project;
+OK
+Time taken: 0.04 seconds
+hive> CREATE TABLE episodeIV (name STRING,line STRING)
+    > row format delimited
+    > fields terminated by '\t'
+    > TBLPROPERTIES ("skip.header.line.count"="2");
+OK
+Time taken: 0.685 seconds
+hive> LOAD DATA LOCAL INPATH '/episodeIVdialouges.txt' INTO TABLE episodeIV;
+Loading data to table project.episodeiv
+OK
+Time taken: 2.236 seconds
+hive> SELECT name,count(name) AS linecnt FROM episodeIV GROUP BY name ORDER BY linecnt DESC;
+Query ID = root_20230620081636_a2e063cc-711d-4494-969b-56d9b8968b64
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1687248510137_0001, Tracking URL = http://4b2b82f115f9:8088/proxy/application_1687248510137_0001/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1687248510137_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-06-20 08:16:50,026 Stage-1 map = 0%,  reduce = 0%
+2023-06-20 08:16:55,334 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3.15 sec
+2023-06-20 08:17:01,609 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 6.65 sec
+MapReduce Total cumulative CPU time: 6 seconds 650 msec
+Ended Job = job_1687248510137_0001
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1687248510137_0002, Tracking URL = http://4b2b82f115f9:8088/proxy/application_1687248510137_0002/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1687248510137_0002
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2023-06-20 08:17:16,200 Stage-2 map = 0%,  reduce = 0%
+2023-06-20 08:17:22,482 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 2.04 sec
+2023-06-20 08:17:28,830 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 6.61 sec
+MapReduce Total cumulative CPU time: 6 seconds 610 msec
+Ended Job = job_1687248510137_0002
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 6.65 sec   HDFS Read: 79813 HDFS Write: 2015 SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 6.61 sec   HDFS Read: 9531 HDFS Write: 1753 SUCCESS
+Total MapReduce CPU Time Spent: 13 seconds 260 msec
+OK
+LUKE    253
+HAN     152
+THREEPIO        119
+BEN     76
+LEIA    57
+VADER   41
+RED LEADER      36
+BIGGS   34
+TARKIN  28
+OWEN    25
+TROOPER 19
+GOLD LEADER     14
+WEDGE   14
+OFFICER 11
+RED TEN 7
+GOLD FIVE       7
+DODONNA 6
+DEATH STAR INTERCOM VOICE       6
+INTERCOM VOICE  6
+GREEDO  6
+FIRST TROOPER   6
+AUNT BERU       6
+BEN'S VOICE     6
+JABBA   6
+HUMAN   4
+TAGGE   4
+MOTTI   4
+VOICE   3
+SECOND TROOPER  3
+MASSASSI INTERCOM VOICE 3
+COMMANDER       3
+BARTENDER       3
+CAMIE   2
+CHIEF   2
+WILLARD 2
+FIXER   2
+GANTRY OFFICER  2
+GOLD TWO        2
+IMPERIAL OFFICER        2
+WOMAN   1
+WINGMAN'S VOICE 1
+WINGMAN 1
+VOICE OVER DEATH STAR INTERCOM  1
+TROOPER VOICE   1
+TECHNICIAN      1
+SECOND OFFICER  1
+RED TEN'S VOICE 1
+RED SEVEN       1
+RED NINE'S VOICE        1
+RED NINE        1
+RED LEADER'S VOICE      1
+RED ELEVEN      1
+REBEL OFFICER   1
+PORKINS 1
+OFFICER CASS    1
+MAN'S VOICE     1
+LUKE'S VOICE    1
+HAN'S VOICE     1
+FIRST OFFICER   1
+DEAK    1
+CREATURE        1
+CONTROL OFFICER 1
+CHIEF PILOT     1
+CAPTAIN 1
+BERU    1
+BASE VOICE      1
+ASTRO-OFFICER   1
+Time taken: 53.71 seconds, Fetched: 67 row(s)
+hive> INSERT OVERWRITE DIRECTORY '/user/saikrishna/hiveepisodeIVoutput/export'
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT * FROM episodeIV;
+Query ID = root_20230620082254_87244ab7-d53a-4ba6-8860-ae7a90a952aa
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1687248510137_0003, Tracking URL = http://4b2b82f115f9:8088/proxy/application_1687248510137_0003/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1687248510137_0003
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 0
+2023-06-20 08:23:04,621 Stage-1 map = 0%,  reduce = 0%
+2023-06-20 08:23:10,832 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.66 sec
+MapReduce Total cumulative CPU time: 2 seconds 660 msec
+Ended Job = job_1687248510137_0003
+Stage-3 is selected by condition resolver.
+Stage-2 is filtered out by condition resolver.
+Stage-4 is filtered out by condition resolver.
+Moving data to directory hdfs://4b2b82f115f9:9000/user/saikrishna/hiveepisodeIVoutput/export/.hive-staging_hive_2023-06-20_08-22-54_495_5443311289890629335-1/-ext-10000
+Moving data to directory /user/saikrishna/hiveepisodeIVoutput/export
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1   Cumulative CPU: 2.66 sec   HDFS Read: 72590 HDFS Write: 67637 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 660 msec
+OK
+Time taken: 17.514 seconds
+hive> exit;
+root@4b2b82f115f9:/# hdfs dfs -ls /user/saikrishna/hiveepisodeIVoutput/export
+Found 1 items
+-rw-r--r--   1 root supergroup      67637 2023-06-20 08:23 /user/saikrishna/hiveepisodeIVoutput/export/000000_0
